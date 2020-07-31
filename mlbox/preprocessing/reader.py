@@ -182,6 +182,7 @@ class Reader():
         self.to_path = to_path
         self.verbose = verbose
 
+
     def clean(self, path, drop_duplicate=False):
 
         """Reads and cleans data (accepted formats : csv, xls, json and h5):

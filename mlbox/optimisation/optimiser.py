@@ -60,12 +60,14 @@ class Optimiser():
 
     def __init__(self, scoring=None,
                  n_folds=2,
+                 splitting_strategy=None,
                  random_state=1,
                  to_path="save",
                  verbose=True):
 
         self.scoring = scoring
         self.n_folds = n_folds
+        self.splitting_strategy = splitting_strategy
         self.random_state = random_state
         self.to_path = to_path
         self.verbose = verbose
@@ -178,9 +180,10 @@ class Optimiser():
             if n_classes == 1:
                 raise ValueError("Your target has not enough classes. You can't run the optimiser")
 
-            cv = StratifiedKFold(n_splits=self.n_folds,
-                                 shuffle=True,
-                                 random_state=self.random_state)
+            cv = self.splitting_strategy if self.splitting_strategy is not None else StratifiedKFold(
+                n_splits=self.n_folds,
+                shuffle=True,
+                random_state=self.random_state)
 
             # Estimator
 

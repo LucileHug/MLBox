@@ -19,6 +19,10 @@
 
 --------------------------
 
+Functionnlities in this Fork :
+==============================
+
+
 How to Contribute
 =================
 
@@ -48,3 +52,4 @@ For more details, please refer to `CONTRIBUTING <https://github.com/AxeldeRombla
    :target: https://pepy.tech/project/mlbox
 .. |Python Versions| image:: https://img.shields.io/pypi/pyversions/mlbox.svg
    :target: https://pypi.org/project/mlbox
+

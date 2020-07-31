@@ -19,6 +19,7 @@ except:
 import matplotlib.pyplot as plt
 
 from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import LabelEncoder
 
 from ..encoding.na_encoder import NA_encoder
 from ..encoding.categorical_encoder import Categorical_encoder
@@ -423,8 +424,8 @@ class Predictor():
                         fhand.close()
 
                     except:
-                        raise ValueError("Unable to load '" + enc_name +
-                                         "' from directory : " + self.to_path)
+                        enc = LabelEncoder()
+                        enc.fit([0, 1])
 
                     try:
                         if(self.verbose):

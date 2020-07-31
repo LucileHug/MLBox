@@ -332,9 +332,9 @@ class Predictor():
             pipe.append(("est", est))
 
             if(cache):
-                pp = Pipeline(pipe, memory=self.to_path)
+                self.pp = Pipeline(pipe, memory=self.to_path)
             else:
-                pp = Pipeline(pipe)
+                self.pp = Pipeline(pipe)
 
             ##########################################
             #          Fitting the Pipeline
@@ -351,7 +351,7 @@ class Predictor():
 
             else:
                 try:
-                    pp = pp.set_params(**params)
+                    self.pp = self.pp.set_params(**params)
                     set_params = True
                 except:
                     set_params = False
@@ -363,7 +363,7 @@ class Predictor():
                         print("")
                         print("fitting the pipeline ...")
 
-                    pp.fit(df['train'], df['target'])
+                    self.pp.fit(df['train'], df['target'])
 
                     if(self.verbose):
                         print("CPU time: %s seconds"%(time.time() - start_time))
@@ -432,7 +432,7 @@ class Predictor():
                             print("")
                             print("predicting ...")
 
-                        pred = pd.DataFrame(pp.predict_proba(df['test']),
+                        pred = pd.DataFrame(self.pp.predict_proba(df['test']),
                                             columns=enc.inverse_transform(range(len(enc.classes_))),
                                             index=df['test'].index)
                         pred[df['target'].name + "_predicted"] = pred.idxmax(axis=1)  # noqa
@@ -460,7 +460,7 @@ class Predictor():
                             print("")
                             print("predicting...")
 
-                        pred[df['target'].name + "_predicted"] = pp.predict(df['test'])  # noqa
+                        pred[df['target'].name + "_predicted"] = self.pp.predict(df['test'])  # noqa
 
                     except:
                         raise ValueError("Can not predict")

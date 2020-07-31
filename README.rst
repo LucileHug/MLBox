@@ -19,8 +19,16 @@
 
 --------------------------
 
-Functionnlities in this Fork :
+Functions in this Fork :
 ==============================
+
+* Splitting rule in optimiser argument
+
+
+Installation + clone :
+======================
+Please refer to `CONTRIBUTING <https://github.com/AxeldeRomblay/MLBox/blob/master/docs/contributing.rst>`__
+in the get started section
 
 
 How to Contribute

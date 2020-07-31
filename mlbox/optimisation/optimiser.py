@@ -6,7 +6,7 @@ import numpy as np
 import pandas as pd
 import warnings
 import time
-
+from copy import deepcopy
 from hyperopt import fmin, hp, tpe
 from sklearn.model_selection import cross_val_score, KFold, StratifiedKFold
 from sklearn.pipeline import Pipeline
@@ -71,7 +71,7 @@ class Optimiser():
         self.random_state = random_state
         self.to_path = to_path
         self.verbose = verbose
-
+        self.save_pipeline = {}
         warnings.warn("Optimiser will save all your fitted models into directory '"
                       +str(self.to_path)+"/joblib'. Please clear it regularly.")
 
@@ -356,9 +356,9 @@ class Optimiser():
         pipe.append(("est", est))
 
         if cache:
-            pp = Pipeline(pipe, memory=self.to_path)
+            self.pp = Pipeline(pipe, memory=self.to_path)
         else:
-            pp = Pipeline(pipe)
+            self.pp = Pipeline(pipe)
 
         ##########################################
         #          Fitting the Pipeline
@@ -374,7 +374,7 @@ class Optimiser():
 
         else:
             try:
-                pp = pp.set_params(**params)
+                self.pp = self.pp.set_params(**params)
                 set_params = True
             except:
                 set_params = False
@@ -424,7 +424,7 @@ class Optimiser():
             try:
 
                 # Computing the mean cross validation score across the folds
-                scores = cross_val_score(estimator=pp,
+                scores = cross_val_score(estimator=self.pp,
                                          X=df['train'].drop(indexes_to_drop),
                                          y=df['target'].drop(indexes_to_drop),
                                          scoring=self.scoring,
@@ -448,7 +448,6 @@ class Optimiser():
         ##########################################
         #             Reporting scores
         ##########################################
-
         out = " ("
 
         for i, s in enumerate(scores[:-1]):

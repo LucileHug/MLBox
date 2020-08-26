@@ -171,7 +171,7 @@ class Predictor():
             pass
 
 
-    def fit_predict(self, params, df):
+    def fit_predict(self, params, df, get_unfit=False):
 
 
         """Fits the model and predicts on the test set.
@@ -362,7 +362,8 @@ class Predictor():
                     if(self.verbose):
                         print("")
                         print("fitting the pipeline ...")
-
+                        if get_unfit:
+                            return self.pp
                     self.pp.fit(df['train'], df['target'])
 
                     if(self.verbose):
